@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TESDA STVET Portal — Scholar Grant Disbursement &amp; Material Clearance Platform</title>
+<style>
+  :root{
+    --green-900:#0b3d2e;
+    --green-800:#0f4a37;
+    --green-700:#14563f;
+    --green-600:#1a6b4d;
+    --green-accent:#2fa876;
+    --green-soft:#e7f5ee;
+    --blue-soft:#eef1fb;
+    --blue-icon:#5b6ee8;
+    --ink-900:#0f1b17;
+    --ink-700:#2c3b35;
+    --ink-500:#5b6b64;
+    --line:#e5eae7;
+    --bg:#f6f8f7;
+    --white:#ffffff;
+    --radius-lg:14px;
+    --radius-md:10px;
+    --radius-sm:7px;
+    --shadow-card:0 1px 2px rgba(15,27,23,.04), 0 1px 8px rgba(15,27,23,.05);
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--font-body);
+    background:var(--bg);
+    color:var(--ink-900);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
+
+  /* ---------- HEADER ---------- */
+  header.topbar{
+    background:linear-gradient(180deg,var(--green-900),var(--green-800));
+    position:relative;
+    z-index:20;
+  }
+  .topbar-inner{
+    max-width:1200px;margin:0 auto;padding:16px 32px;
+    display:flex;align-items:center;justify-content:space-between;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-badge{
+    width:36px;height:36px;border-radius:9px;
+    background:rgba(255,255,255,.12);
+    display:flex;align-items:center;justify-content:center;
+    flex:none;
+    overflow:hidden;
+  }
+  .brand-badge svg{width:19px;height:19px;stroke:#fff;}
+  .brand-badge img{width:100%;height:100%;object-fit:cover;}
+  .brand-text{color:#fff;}
+  .brand-title-row{display:flex;align-items:center;gap:9px;}
+  .brand-title{font-size:15px;font-weight:700;letter-spacing:.1px;}
+  .brand-chip{
+    font-size:9.5px;font-weight:700;letter-spacing:.4px;
+    background:rgba(255,255,255,.14);
+    color:#c9f0dd;
+    padding:3px 8px;border-radius:20px;
+    text-transform:uppercase;
+  }
+  .brand-sub{font-size:11.5px;color:#a9c9bc;margin-top:2px;}
+
+  nav.main-nav{display:flex;align-items:center;gap:6px;}
+  .nav-link{
+    color:#dcebe3;font-size:13.5px;font-weight:500;
+    padding:9px 14px;border-radius:8px;
+    display:flex;align-items:center;gap:6px;
+    transition:background .15s ease, color .15s ease;
+    white-space:nowrap;
+  }
+  .nav-link svg{width:14px;height:14px;stroke:currentColor;flex:none;}
+  .nav-link:hover{background:rgba(255,255,255,.08);color:#fff;}
+  .nav-link.active{background:rgba(255,255,255,.14);color:#fff;}
+  .nav-cta{
+    background:var(--green-accent);
+    color:#08281c;
+    font-weight:700;font-size:13.5px;
+    padding:9px 16px;border-radius:9px;
+    display:flex;align-items:center;gap:7px;
+    border:none;
+    transition:filter .15s ease, transform .15s ease;
+  }
+  .nav-cta svg{width:14px;height:14px;}
+  .nav-cta:hover{filter:brightness(1.07);transform:translateY(-1px);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(900px 420px at 15% -10%, rgba(47,168,118,.18), transparent 60%),
+      linear-gradient(160deg,var(--green-900) 0%, var(--green-800) 55%, #0d4534 100%);
+    padding:64px 0 76px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:34px 34px;
+    mask-image:linear-gradient(180deg, rgba(0,0,0,.5), transparent 75%);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative;z-index:2;max-width:760px;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.09);
+    border:1px solid rgba(255,255,255,.14);
+    color:#bfe6d3;
+    font-size:12px;font-weight:600;letter-spacing:.2px;
+    padding:7px 14px;border-radius:20px;
+    margin-bottom:22px;
+    opacity:0;
+    animation:fadeUp .6s ease forwards;
+  }
+  .eyebrow svg{width:13px;height:13px;stroke:currentColor;}
+  h1.hero-title{
+    color:#fff;
+    font-size:40px;
+    line-height:1.18;
+    font-weight:800;
+    letter-spacing:-.5px;
+    margin:0 0 20px;
+    max-width:640px;
+    opacity:0;
+    animation:fadeUp .6s ease .08s forwards;
+  }
+  p.hero-desc{
+    color:#c3d9cd;
+    font-size:15.5px;
+    line-height:1.65;
+    max-width:640px;
+    margin:0;
+    opacity:0;
+    animation:fadeUp .6s ease .16s forwards;
+  }
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .eyebrow,h1.hero-title,p.hero-desc{animation:none;opacity:1;}
+  }
+
+  /* ---------- MODULES SECTION ---------- */
+  section.modules{padding:56px 0 8px;}
+  .modules-head{
+    display:flex;align-items:flex-end;justify-content:space-between;
+    margin-bottom:28px;
+    gap:20px;flex-wrap:wrap;
+  }
+  .modules-head h2{
+    font-size:19px;font-weight:700;margin:0 0 6px;color:var(--ink-900);
+  }
+  .modules-head p{
+    font-size:13.5px;color:var(--ink-500);margin:0;
+  }
+  .modules-head .signin-link{
+    display:flex;align-items:center;gap:5px;
+    color:var(--green-700);font-weight:600;font-size:13.5px;
+    white-space:nowrap;
+  }
+  .modules-head .signin-link svg{width:14px;height:14px;transition:transform .15s ease;}
+  .modules-head .signin-link:hover svg{transform:translateX(3px);}
+
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  .module-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:24px;
+    box-shadow:var(--shadow-card);
+    display:flex;flex-direction:column;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .module-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(15,27,23,.08);
+  }
+  .card-icon{
+    width:38px;height:38px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:16px;
+  }
+  .card-icon svg{width:18px;height:18px;}
+  .icon-indigo{background:var(--blue-soft);}
+  .icon-indigo svg{stroke:var(--blue-icon);}
+  .icon-green{background:var(--green-soft);}
+  .icon-green svg{stroke:var(--green-700);}
+  .icon-slate{background:#eef0f2;}
+  .icon-slate svg{stroke:#4b5a56;}
+
+  .module-card h3{font-size:15.5px;font-weight:700;margin:0 0 10px;color:var(--ink-900);}
+  .module-card > p.desc{
+    font-size:13px;line-height:1.6;color:var(--ink-500);
+    margin:0 0 16px;
+  }
+  .feature-list{
+    list-style:none;margin:0 0 18px;padding:14px 0 0;
+    border-top:1px solid var(--line);
+    display:flex;flex-direction:column;gap:9px;
+    flex:1;
+  }
+  .feature-list li{
+    display:flex;align-items:center;gap:8px;
+    font-size:12.5px;color:var(--ink-700);
+  }
+  .feature-list li svg{width:14px;height:14px;stroke:var(--green-accent);flex:none;}
+  .card-btn{
+    width:100%;
+    padding:11px 14px;
+    border-radius:9px;
+    border:none;
+    font-weight:700;font-size:13px;
+    text-align:center;
+    background:var(--blue-soft);color:#3745b8;
+    transition:filter .15s ease;
+  }
+  .card-btn:hover{filter:brightness(.96);}
+  .card-btn.green{background:var(--green-soft);color:var(--green-700);}
+  .card-btn.slate{background:#eef0f2;color:#2e3a37;}
+
+  /* ---------- LIFECYCLE SECTION ---------- */
+  section.lifecycle-wrap{padding:36px 0 72px;}
+  .lifecycle{
+    background:linear-gradient(160deg,var(--green-900),#0c4433 65%, #0e4a37);
+    border-radius:20px;
+    padding:40px 44px 34px;
+    color:#fff;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .lifecycle::before{
+    content:"";
+    position:absolute;inset:0;
+    background:radial-gradient(600px 260px at 85% 0%, rgba(47,168,118,.18), transparent 60%);
+    pointer-events:none;
+  }
+  .lifecycle-eyebrow{
+    position:relative;z-index:1;
+    font-size:11px;font-weight:700;letter-spacing:1.4px;
+    color:#7fd6ab;text-transform:uppercase;margin-bottom:10px;
+  }
+  .lifecycle h2{
+    position:relative;z-index:1;
+    font-size:24px;font-weight:800;margin:0 0 8px;
+  }
+  .lifecycle p.sub{
+    position:relative;z-index:1;
+    font-size:13.5px;color:#b9d6c8;margin:0 0 32px;
+  }
+  .step-grid{
+    position:relative;z-index:1;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    text-align:left;
+  }
+  .step-card{
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:13px;
+    padding:20px 18px;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .step-card:hover{background:rgba(255,255,255,.09);transform:translateY(-2px);}
+  .step-num{
+    width:24px;height:24px;border-radius:7px;
+    background:var(--green-accent);
+    color:#08281c;font-size:12px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:14px;
+  }
+  .step-card h4{font-size:13.5px;font-weight:700;margin:0 0 8px;}
+  .step-card p{font-size:12px;line-height:1.6;color:#bcd8cb;margin:0;}
+  .step-card b{color:#fff;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    nav.main-nav .nav-link span.label{display:none;}
+    .card-grid{grid-template-columns:1fr;}
+    .step-grid{grid-template-columns:repeat(2,1fr);}
+    h1.hero-title{font-size:32px;}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 18px;}
+    .topbar-inner{padding:14px 18px;flex-wrap:wrap;gap:12px;}
+    nav.main-nav{display:none;}
+    .hero{padding:44px 0 52px;}
+    h1.hero-title{font-size:26px;}
+    .step-grid{grid-template-columns:1fr;}
+    .lifecycle{padding:30px 22px;}
+    .modules-head{align-items:flex-start;}
+  }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--green-accent);
+    outline-offset:2px;
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-badge">
+        <img src="holy-trinity-logo.png" alt="Holy Trinity College logo">
+      </span>
+      <div class="brand-text">
+        <div class="brand-title-row">
+          <span class="brand-title">TESDA STVET Portal</span>
+          <span class="brand-chip">Greenprints System</span>
+        </div>
+        <div class="brand-sub">Scholar Grant Disbursement &amp; Material Clearance Platform</div>
+      </div>
+    </div>
+
+    <nav class="main-nav">
+      <a href="#" class="nav-link active"><span class="label">System Overview</span></a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <span class="label">Clearance Lookup</span>
+      </a>
+      <a href="#" class="nav-link"><span class="label">Grant Programs</span></a>
+      <button class="nav-cta">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg>
+        <span class="label">Sign In / Portal</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="hero">
+    <div class="wrap hero-inner">
+      <span class="eyebrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/></svg>
+        Integrated Technical-Vocational Education &amp; Training Platform
+      </span>
+      <h1 class="hero-title">Official STVET Scholar Grant &amp; Greenprints Material Clearance System</h1>
+      <p class="hero-desc">Streamlining scholar allowance disbursements, LandBank check release verification, Greenprints bookstore liability settlements, and COA audit liquidation compliance in one synchronized portal.</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="modules">
+    <div class="modules-head">
+      <div>
+        <h2>Integrated System Modules &amp; Stakeholder Workflows</h2>
+        <p>How STVET Administrative Officers, Greenprints Bookstore Cashiers, and COA Auditors collaborate.</p>
+      </div>
+      <a href="#" class="signin-link">
+        Sign In to Access Modules
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+    </div>
+
+    <div class="card-grid">
+
+      <!-- Card 1 -->
+      <div class="module-card">
+        <span class="card-icon icon-indigo">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z"/><path d="m9 12 2 2 4-4"/></svg>
+        </span>
+        <h3>STVET Administrative Office</h3>
+        <p class="desc">Manages scholar grant allocations (TWSP, STEP, PESFA, UAQTEA), calculates training allowances, issues LandBank check vouchers, and prints official clearance certificates.</p>
+        <ul class="feature-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>Automated LandBank Check Generation</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>Greenprints Clearance Override Locks</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>Printable Official Clearance Documents</li>
+        </ul>
+        <button class="card-btn">Login as STVET Admin</button>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="module-card">
+        <span class="card-icon icon-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </span>
+        <h3>Greenprints Bookstore Partner</h3>
+        <p class="desc">Logs required TVET textbook, uniform, and technical tool kit payables for scholars. Issues Official Receipts (OR) upon cash/voucher payment to automatically lift clearance holds.</p>
+        <ul class="feature-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>Material Catalog &amp; Item Code Pricing</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>Official Receipt (OR-GP) Logging</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>Real-Time Clearance Status Sync</li>
+        </ul>
+        <button class="card-btn green">Login as Bookstore Staff</button>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="module-card">
+        <span class="card-icon icon-slate">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        </span>
+        <h3>COA &amp; Regional Audit Monitoring</h3>
+        <p class="desc">Provides Commission on Audit (COA) inspectors with immutable audit trails of every check issuance, clearance state change, administrative override, and liquidation report.</p>
+        <ul class="feature-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>System Action &amp; Override Logs</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>Liquidation Matrix &amp; Grant Reports</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>Verification of Disbursed Allowances</li>
+        </ul>
+        <button class="card-btn slate">Login as COA Auditor</button>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="lifecycle-wrap">
+    <div class="lifecycle">
+      <div class="lifecycle-eyebrow">Clearance &amp; Disbursement Lifecycle</div>
+      <h2>How the STVET–Greenprints Workflow Operates</h2>
+      <p class="sub">Four synchronized steps ensuring zero uncollected liabilities before scholarship check release.</p>
+
+      <div class="step-grid">
+        <div class="step-card">
+          <span class="step-num">1</span>
+          <h4>Scholar Enrollment</h4>
+          <p>STVET Admin enrolls scholar, specifies TVET qualification course, and computes allowance allocation.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">2</span>
+          <h4>Material Payable Logging</h4>
+          <p>Greenprints Bookstore assigns required textbooks, uniforms, or toolkits. Clearance automatically switches to <b>ON_HOLD</b>.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">3</span>
+          <h4>Settlement &amp; Receipt</h4>
+          <p>Scholar settles payables via cash/voucher. Bookstore issues OR-GP receipt, immediately changing status to <b>CLEARED</b>.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">4</span>
+          <h4>LandBank Check Release</h4>
+          <p>STVET Admin verifies clearance status and safely hands over the LandBank allowance check to the cleared scholar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Simple demo interactivity: role-login buttons and nav CTA give visible feedback
+  // since this is a static front-end recreation with no backend wired up.
+  document.querySelectorAll('.card-btn, .nav-cta, .signin-link').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      const label = el.textContent.trim();
+      showToast(label + ' — connect this action to your backend/auth flow.');
+    });
+  });
+
+  function showToast(message){
+    let toast = document.getElementById('demo-toast');
+    if(!toast){
+      toast = document.createElement('div');
+      toast.id = 'demo-toast';
+      toast.style.position = 'fixed';
+      toast.style.bottom = '24px';
+      toast.style.left = '50%';
+      toast.style.transform = 'translateX(-50%) translateY(20px)';
+      toast.style.background = '#0f1b17';
+      toast.style.color = '#fff';
+      toast.style.padding = '12px 20px';
+      toast.style.borderRadius = '10px';
+      toast.style.fontSize = '13px';
+      toast.style.fontFamily = 'inherit';
+      toast.style.boxShadow = '0 8px 24px rgba(0,0,0,.25)';
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity .2s ease, transform .2s ease';
+      toast.style.zIndex = '999';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    requestAnimationFrame(function(){
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+    });
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function(){
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(20px)';
+    }, 2200);
+  }
+</script>
+
+</body>
+</html>
